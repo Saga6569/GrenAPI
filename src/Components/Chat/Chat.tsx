@@ -1,17 +1,27 @@
 import ChatHendler from './ChatHendler'
 import ChatBody from './ChatBody'
 import ChatControl from './ChatControl'
+import { myRequest } from '../../utilits';
 
 import { useState } from 'react';
 
 
-const Chat = (state: any, setState: Function) => {
-	return (
-		<div className='chat' >
-			<ChatHendler />
-			<ChatBody />
-			<ChatControl />
-		</div>
-	)
+const getMyRequest = async (url: string, option: any) => {
+  return await myRequest(url, option)
+}
+
+const Chat: any = (props: any) => {
+
+  const { state, setState } = props
+
+
+
+  return (
+    <div className='chat' >
+      <ChatHendler />
+      <ChatBody state={state} setState={setState}/>
+      <ChatControl />
+    </div>
+  )
 }
 export default Chat;

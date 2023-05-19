@@ -8,7 +8,6 @@ export const myRequest = async (url: string, option: {}) => {
             return { status: 'ERROR', value: 'ошибка сети' };
         };
         const json = await response.json();
-        console.log(await response)
         return json;
     } catch (error) {
         console.log(error);

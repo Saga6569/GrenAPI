@@ -1,143 +1,161 @@
 .main {
-	border: solid;
-	position: absolute;
-	width: 70%;
-	height: 80%;
-	left: 15%;
-	top: 10%;
-	display: flex;
+  border: solid;
+  position: absolute;
+  width: 70%;
+  height: 80%;
+  left: 15%;
+  top: 10%;
+  display: flex;
 
-	.menu {
+  .menu {
 
-		width: 35%;
-		height: 100%;
-		gap: 2%;
-		display: flex;
-		flex-direction: column;
+    width: 35%;
+    height: 100%;
+    gap: 2%;
+    display: flex;
+    flex-direction: column;
 
-		.headerMenu {
-			background-color: #d7d9db;
-			width: 100%;
-			height: 15%;
-		}
+    .headerMenu {
+      background-color: #d7d9db;
+      width: 100%;
+      height: 15%;
+    }
 
-		.usersItem {
-			display: flex;
-			height: 100%;
-			flex-direction: column;
-			overflow: auto;
+    .usersItem {
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      overflow: auto;
 
-			.user {
-				width: 100%;
-				height: 10%;
-				border-bottom: solid 1px;
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: center;
+      .user,
+      .user-activ {
+        width: 100%;
+        height: 10%;
+        border-bottom: solid 1px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
 
-				.avatar {
-					width: auto;
-					height: 100%;
-					border-radius: 20px;
-				}
+        &-activ {
+          background-color: #808182;
+        }
 
-				.body {
-					display: flex;
-					flex-direction: column;
-				}
-			}
-		}
+        .avatar {
+          width: auto;
+          height: 100%;
+          border-radius: 20px;
+        }
 
-
-		.AddChat {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-around;
-
-			.Add {
-
-				background-color: transparent;
-				width: 25px;
-				height: 25px;
-			}
-		}
+        .body {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+    }
 
 
-	}
+    .AddChat {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
 
-	.chat {
-		background-color: rgb(208, 205, 201);
-		display: block;
-		width: 100%;
-		height: 100%;
-		display: flex;
-		flex-direction: column;
+      .Add {
 
-
-		.headerChat {
-			width: 100%;
-			height: 15%;
-			background-color: #808182;
-		}
-
-		.bodyChat {
-			overflow-anchor: auto;
-			width: 100%;
-			overflow: auto;
-			height: 75%;
-			display: flex;
-			gap: 50px;
-			flex-direction: column;
-
-			.you {
-				background-color: green;
-				opacity: 0.8;
-				display: flex;
-				justify-content: flex-end;
-				height: 10%;
-				align-items: baseline;
-				width: fit-content;
-				margin-left: auto;
-
-				.text {}
-
-				.status {
-					font-size: 5px;
-				}
-
-				.time {
-					font-size: 12px;
-				}
-
-			}
-
-			.companion {
-				background-color: rgb(131, 136, 131);
-				opacity: 0.8;
-				height: 10%;
-				display: flex;
-				align-items: baseline;
-				width: fit-content;
-
-				.status {
-					font-size: 5px;
-				}
-
-				.time {
-					font-size: 12px;
-				}
-			}
-
-		}
-
-		.controlChat {
-			width: 100%;
-			height: 10%;
-			background-color: #808182;
-		}
+        background-color: transparent;
+        width: 25px;
+        height: 25px;
+      }
+    }
 
 
-	}
+  }
+
+  .chat {
+    background-color: rgb(208, 205, 201);
+    display: block;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+
+    .headerChat {
+      width: 100%;
+      height: 15%;
+      background-color: #808182;
+    }
+
+    .bodyChat {
+      overflow-anchor: auto;
+      width: 100%;
+      overflow: auto;
+      height: 75%;
+      display: flex;
+      gap: 50px;
+      flex-direction: column;
+
+      .you {
+        background-color: green;
+        opacity: 0.8;
+        display: flex;
+        justify-content: flex-end;
+        // height: 10%;
+        align-items: baseline;
+        width: fit-content;
+        margin-left: auto;
+
+        .text {}
+
+        .img {
+          width: 50px;
+          height: auto;
+        }
+
+        .status {
+          font-size: 5px;
+        }
+
+        .time {
+          font-size: 12px;
+        }
+
+      }
+
+      .companion {
+        background-color: rgb(131, 136, 131);
+        opacity: 0.8;
+        // height: 10%;
+        display: flex;
+        align-items: baseline;
+        width: fit-content;
+        flex-direction: column;
+
+        .text {}
+
+        .img {
+          width: 250px;
+          height: auto;
+        }
+
+        .status {
+          font-size: 5px;
+        }
+
+        .time {
+          font-size: 12px;
+        }
+      }
+
+    }
+
+    .controlChat {
+      width: 100%;
+      height: 10%;
+      background-color: #808182;
+    }
+
+
+  }
 
 }
