@@ -20,7 +20,7 @@ const Chat: any = (props: any) => {
     <div className='chat' >
       <ChatHendler />
       <ChatBody state={state} setState={setState}/>
-      <ChatControl />
+      <ChatControl state={state} setState={setState} />
     </div>
   )
 }

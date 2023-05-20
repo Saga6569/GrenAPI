@@ -25,10 +25,10 @@ interface IRequest {
   timestamp: number;
   type: string;
   typeMessage: string;
-  downloadUrl?: string
+  downloadUrl?: string;
+  imageMessage?: string
+  [index: string]: string | number | boolean | undefined
 }
-
-
 
 const BodyChat = (props: any) => {
 
@@ -49,16 +49,18 @@ const BodyChat = (props: any) => {
   const masseg = (userTarget.chat).map((el: IRequest, i: number) => {
 
     const date = new Date((el.timestamp))
-    const clssName = el.hasOwnProperty('senderName') ? 'companion' : 'you'
+    const clssName = el.type
 
-    console.log(el)
+    const span = el.typeMessage === 'imageMessage' ? <img className='img' src={el.downloadUrl} /> : <p className='text'>{el.textMessage}</p>
 
-    const span = el.hasOwnProperty('downloadUrl') ? <img className='img' src={el.downloadUrl}/> : <span className='text'>{el.textMessage}</span>
+    if (el.type === '') {
+      return null
+    }
 
     return (
       <div key={i} className={clssName} >
         {span}
-        <span className='status'>{el.statusMessage}</span>
+        {/* <span className='status'>{el.statusMessage}</span> */}
         <span className='time'>{`${date.getHours()}:${date.getMinutes()}`}</span>
       </div>
     )
