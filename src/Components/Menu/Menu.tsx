@@ -1,14 +1,90 @@
-
 import { useState } from "react"
 import HeaderMenu from "./HeaderMenu"
 import UsersItem from "./UsersItems"
 import { myRequest } from '../../utilits'
 
+const getInfo = async (telephone: string, state: any, setState: Function) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const raw = JSON.stringify({
+    "chatId": `7${telephone}@c.us`
+  });
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+  const url = `https://api.green-api.com/waInstance${state.IdInstance}/GetContactInfo/${state.ApiTokenInstance}`
+  const request = await myRequest(url, requestOptions)
+
+  const myHeaders2 = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const raw2 = JSON.stringify({
+    "chatId": `7${telephone}@c.us`,
+    "count": 100
+  });
+  const requestOptions2 = {
+    method: 'POST',
+    headers: myHeaders2,
+    body: raw2,
+    redirect: 'follow'
+  };
+
+  const url2 = `https://api.green-api.com/waInstance${state.IdInstance}/getChatHistory/${state.ApiTokenInstance}`
+  const chat = await myRequest(url2, requestOptions2)
+  const newUser = { telephone: `7${telephone}`, ...request, target: false, chat }
+  const users = [...state.users, newUser]
+  setState({ ...state, users })
+  return { ...state, users }
+}
+
+const update = async (state: any, setState: Function, telephone: string) => {
+
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  const raw = JSON.stringify({
+    "chatId": `${telephone}@c.us`,
+    "count": 100
+  });
+  const requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+
+  const oldChat = state.users.filter((el: any) => el.telephone === telephone)[0].chat
+
+  const url = `https://api.green-api.com/waInstance${state.IdInstance}/getChatHistory/${state.ApiTokenInstance}`
+  const chat = await myRequest(url, requestOptions)
+
+  console.log(chat)
+  console.log(oldChat)
+
+  if (chat.length === oldChat.length) {
+    console.log('новых  сообщений неет')
+    setTimeout(async () => {
+      update(state, setState, telephone)
+    }, 5000)
+  } else {
+    const users = state.users.map((user: any) => {
+      if (user.telephone === telephone) {
+        user.chat = chat
+      }
+      return user
+    })
+    console.log('обновляем лист')
+    setState({ ...state, users })
+    setTimeout(async () => {
+      update({ ...state, users }, setState, telephone)
+    }, 5000)
+  }
+};
 
 const AddChat = (props: any) => {
 
   const { state, setState } = props;
-
   const [telephone, setTelephone] = useState('')
 
   return (
@@ -20,28 +96,20 @@ const AddChat = (props: any) => {
             return
           }
 
-          const myHeaders = new Headers();
-          myHeaders.append("Content-Type", "application/json");
+          const tel = `7${telephone}`
 
-          const raw = JSON.stringify({
-            "chatId": `7${telephone}@c.us`
-          });
+          const arrTelephone: [string] = state.users.map((el: any) => el.telephone)
 
-          var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-          };
+          if (arrTelephone.includes(telephone)) {
+            console.log('этот пользователь уже добавлен')
+          }
 
-          const url = `https://api.green-api.com/waInstance${state.IdInstance}/GetContactInfo/${state.ApiTokenInstance}`
+          const newState = await getInfo(telephone, state, setState)
 
-          const request = await myRequest(url, requestOptions)
+          setTimeout(async () => {
+            await update(newState, setState, tel)
+          }, 2000)
 
-          const newUser = { telephone: `7${telephone}`, ...request, target: false }
-          const users = [...state.users, newUser]
-
-          setState({ ...state, users })
           setTelephone('')
         }}
       ></button>
@@ -50,7 +118,6 @@ const AddChat = (props: any) => {
         pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
         required
         onChange={(e) => {
-
           const newValue = (e.target.value)
           setTelephone(newValue)
         }}

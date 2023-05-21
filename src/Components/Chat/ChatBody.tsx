@@ -27,8 +27,11 @@ interface IRequest {
   typeMessage: string;
   downloadUrl?: string;
   imageMessage?: string
-  [index: string]: string | number | boolean | undefined
 }
+
+// interface IState {
+//   s
+// }
 
 const BodyChat = (props: any) => {
 
@@ -43,8 +46,6 @@ const BodyChat = (props: any) => {
   if (!userTarget.hasOwnProperty('chat')) {
     return null
   }
-
-  console.log(userTarget)
 
   const masseg = (userTarget.chat).map((el: IRequest, i: number) => {
 

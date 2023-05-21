@@ -14,8 +14,6 @@ const Chat: any = (props: any) => {
 
   const { state, setState } = props
 
-
-
   return (
     <div className='chat' >
       <ChatHendler />

@@ -44,9 +44,6 @@ const ChatControl = (props: any) => {
             const url = `https://api.green-api.com/waInstance${state.IdInstance}/sendMessage/${state.ApiTokenInstance}`
             const request = await myRequest(url, requestOptions)
 
-
-            console.log(request)
-
         }}
         />
       </div>

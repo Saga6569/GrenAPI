@@ -8,6 +8,8 @@ const App = () => {
 
   const [state, setState] = useState({ users: [], IdInstance: '', ApiTokenInstance: '' })
 
+  console.log(state, 'app')
+
   useEffect(() => {
     const localStorageState = ((localStorage.getItem('state')));
     if (localStorageState !== null) {

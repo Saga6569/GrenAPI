@@ -8,7 +8,7 @@ interface Values {
 
 const SignupForm = (func: Function) => {
   return (
-    <div>
+    <div>сщты
       <h1>Signup</h1>
       <Formik
         initialValues={{
@@ -17,8 +17,6 @@ const SignupForm = (func: Function) => {
         }}
         onSubmit={async (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
           setSubmitting(false);
-
-          console.log(values)
           const IdInstance = Number(values.IdInstance)
           const ApiTokenInstance = values.ApiTokenInstance
 
@@ -39,10 +37,10 @@ const SignupForm = (func: Function) => {
       >
         <Form>
           <label htmlFor="IdInstance">IdInstance</label>
-          <Field id="IdInstance" name="IdInstance" placeholder="" />
+          <Field id="IdInstance" name="IdInstance" autoComplete="off" placeholder="" />
 
           <label htmlFor="ApiTokenInstance">ApiTokenInstance</label>
-          <Field id="ApiTokenInstance" name="ApiTokenInstance" placeholder="" />
+          <Field id="ApiTokenInstance" name="ApiTokenInstance" autoComplete="off" placeholder="" />
 
           <button type="submit">Submit</button>
         </Form>
