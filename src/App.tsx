@@ -6,9 +6,7 @@ import './App.scss'
 
 const App = () => {
 
-  const [state, setState] = useState({ users: [], IdInstance: '', ApiTokenInstance: '' })
-
-  // console.log(state, 'app')
+  const [state, setState] = useState({ users: [], IdInstance: '', ApiTokenInstance: '', coutn: 0 })
 
   useEffect(() => {
     const localStorageState = ((localStorage.getItem('state')));

@@ -8,7 +8,7 @@ interface Values {
 
 const SignupForm = (func: Function) => {
   return (
-    <div>сщты
+    <div>
       <h1>Signup</h1>
       <Formik
         initialValues={{

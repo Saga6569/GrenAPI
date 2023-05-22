@@ -26,6 +26,13 @@ const UsersItems = (props: any) => {
     const telephoneTarger = user.telephone
     const noImg = `https://console.green-api.com/emptyAvatar.png`
     const userName = user.name === '' ? user.telephone : user.name;
+
+    const lastMasseg = user.chat.at(-1)
+
+    const date = new Date(lastMasseg.timestamp)
+    const hour = date.getHours()
+    const minutes = date.getMinutes()
+
     return (
       <div key={_.uniqueId()} className={user.target ? 'user-activ' : 'user'}
         onClick={async () => {
@@ -56,7 +63,7 @@ const UsersItems = (props: any) => {
           <span>{userName}</span>
           {/* <span className='status'>xx</span> */}
         </div>
-        <div className='time'></div>
+        <div className='time'>{`${hour}:${minutes}`}</div>
       </div>
     )
   })

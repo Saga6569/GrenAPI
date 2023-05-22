@@ -2,11 +2,17 @@ import { useState } from 'react';
 import { myRequest, updateChat } from '../../utilits'
 
 const ChatControl = (props: any) => {
-  const {state, setState } = props
+  const { state, setState } = props
   const [masseg, setMasseg] = useState('')
 
+  const [count, setCount] = useState(0)
+
+  const elTarget = state.users.filter((el: any) => el.target)[0]
+
+  const lastMasseg = elTarget.chat[0]
+
   const sendMasseg = async () => {
-    const telephone = state.users.filter((el: any) => el.target)[0].telephone
+    const telephone = elTarget.telephone
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     const raw = JSON.stringify({
@@ -20,10 +26,15 @@ const ChatControl = (props: any) => {
       redirect: 'follow'
     };
     const url = `https://api.green-api.com/waInstance${state.IdInstance}/sendMessage/${state.ApiTokenInstance}`
-    await myRequest(url, requestOptions)
+    const res = await myRequest(url, requestOptions);
+
     setMasseg('')
-    await updateChat(state, setState, telephone)
+
+    setTimeout(async () => {
+      await updateChat(state, setState, telephone)
+    }, 1000)
   }
+
 
   return (
     <div className='controlChat'>
@@ -43,7 +54,7 @@ const ChatControl = (props: any) => {
           }}
         />
         <button
-          onClick={async () => sendMasseg() }
+          onClick={async () => sendMasseg()}
         />
       </div>
 

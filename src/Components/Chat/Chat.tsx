@@ -1,25 +1,37 @@
 import ChatHendler from './ChatHendler'
 import ChatBody from './ChatBody'
 import ChatControl from './ChatControl'
-import { myRequest } from '../../utilits';
+import { updateChat } from '../../utilits';
+import { useEffect, useState } from 'react';
 
-import { useState } from 'react';
-
-
-const getMyRequest = async (url: string, option: any) => {
-  return await myRequest(url, option)
+interface IUser {
+  avatar: string;
+  category: string;
+  chatId: string;
+  description: string;
+  email: string;
+  isArchive: boolean;
+  isDisappearing: boolean;
+  isMute: boolean;
+  lastSeen: null;
+  muteExpiration: null;
+  name: string;
+  products: [];
+  telephone: string;
+  target: boolean;
+  chat: any
 }
 
 const Chat: any = (props: any) => {
 
   const { state, setState } = props
+  const arr = state.users.filter((el: IUser) => el.target)
 
-  const arrTarget: [boolean] = state.users.map((el: any) =>  el.target)
-
-  if (arrTarget.includes(true)) {
+  if (arr.length !== 0) {
+    const targetEl = arr[0]
     return (
       <div className='chat' >
-        <ChatHendler />
+        <ChatHendler el={targetEl} />
         <ChatBody state={state} setState={setState} />
         <ChatControl state={state} setState={setState} />
       </div>
@@ -28,9 +40,7 @@ const Chat: any = (props: any) => {
 
   return (
     <div className='chat' >
-      {/* <ChatHendler /> */}
-      <ChatBody state={state} setState={setState}/>
-      {/* <ChatControl state={state} setState={setState} /> */}
+      <ChatBody state={state} setState={setState} />
     </div>
   )
 }

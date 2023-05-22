@@ -2,7 +2,7 @@ export const myRequest = async (url: string, option: {}) => {
 
   try {
     const response = await fetch(url, option);
-    console.log(response)
+    // console.log(response)
     if (response.status !== 200) {
       return { status: 'ERROR', value: response.status };
     }
@@ -12,13 +12,11 @@ export const myRequest = async (url: string, option: {}) => {
     const json = await response.json();
     return json;
   } catch (error) {
-    console.log(error);
     return { status: 'ERROR', value: error };
   };
 };
 
 export const updateChat = async (state: any, setState: Function, telephone: string) => {
-
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   const raw = JSON.stringify({
@@ -34,6 +32,7 @@ export const updateChat = async (state: any, setState: Function, telephone: stri
 
   const url = `https://api.green-api.com/waInstance${state.IdInstance}/getChatHistory/${state.ApiTokenInstance}`
   const chat = await myRequest(url, requestOptions)
+
   const users = state.users.map((user: any) => {
     if (user.telephone === telephone) {
       user.chat = chat

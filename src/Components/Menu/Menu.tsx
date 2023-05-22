@@ -40,46 +40,6 @@ const getInfo = async (telephone: string, state: any, setState: Function) => {
   return { ...state, users }
 }
 
-const update = async (state: any, setState: Function, telephone: string) => {
-
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  const raw = JSON.stringify({
-    "chatId": `${telephone}@c.us`,
-    "count": 100
-  });
-  const requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow'
-  };
-
-  const oldChat = state.users.filter((el: any) => el.telephone === telephone)[0].chat
-
-  const url = `https://api.green-api.com/waInstance${state.IdInstance}/getChatHistory/${state.ApiTokenInstance}`
-  const chat = await myRequest(url, requestOptions)
-
-  if (chat.length === oldChat.length) {
-    console.log('новых  сообщений неет')
-    setTimeout(async () => {
-      update(state, setState, telephone)
-    }, 5000)
-  } else {
-    const users = state.users.map((user: any) => {
-      if (user.telephone === telephone) {
-        user.chat = chat
-      }
-      return user
-    })
-    console.log('обновляем лист')
-    setState({ ...state, users })
-    setTimeout(async () => {
-      update({ ...state, users }, setState, telephone)
-    }, 5000)
-  }
-};
-
 const AddChat = (props: any) => {
 
   const { state, setState } = props;
