@@ -14,11 +14,23 @@ const Chat: any = (props: any) => {
 
   const { state, setState } = props
 
+  const arrTarget: [boolean] = state.users.map((el: any) =>  el.target)
+
+  if (arrTarget.includes(true)) {
+    return (
+      <div className='chat' >
+        <ChatHendler />
+        <ChatBody state={state} setState={setState} />
+        <ChatControl state={state} setState={setState} />
+      </div>
+    )
+  }
+
   return (
     <div className='chat' >
-      <ChatHendler />
+      {/* <ChatHendler /> */}
       <ChatBody state={state} setState={setState}/>
-      <ChatControl state={state} setState={setState} />
+      {/* <ChatControl state={state} setState={setState} /> */}
     </div>
   )
 }

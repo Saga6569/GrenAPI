@@ -29,13 +29,11 @@ interface IRequest {
   imageMessage?: string
 }
 
-// interface IState {
-//   s
-// }
-
 const BodyChat = (props: any) => {
 
   const { state, setState } = props
+
+  console.log(state)
 
   const userTarget = state.users.filter((el: IValues) => el.target)[0]
 
@@ -46,6 +44,8 @@ const BodyChat = (props: any) => {
   if (!userTarget.hasOwnProperty('chat')) {
     return null
   }
+
+  console.log(userTarget)
 
   const masseg = (userTarget.chat).map((el: IRequest, i: number) => {
 

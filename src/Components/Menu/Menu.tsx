@@ -7,7 +7,7 @@ const getInfo = async (telephone: string, state: any, setState: Function) => {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   const raw = JSON.stringify({
-    "chatId": `7${telephone}@c.us`
+    "chatId": `${telephone}@c.us`
   });
   var requestOptions = {
     method: 'POST',
@@ -21,7 +21,7 @@ const getInfo = async (telephone: string, state: any, setState: Function) => {
   const myHeaders2 = new Headers();
   myHeaders.append("Content-Type", "application/json");
   const raw2 = JSON.stringify({
-    "chatId": `7${telephone}@c.us`,
+    "chatId": `${telephone}@c.us`,
     "count": 100
   });
   const requestOptions2 = {
@@ -33,7 +33,8 @@ const getInfo = async (telephone: string, state: any, setState: Function) => {
 
   const url2 = `https://api.green-api.com/waInstance${state.IdInstance}/getChatHistory/${state.ApiTokenInstance}`
   const chat = await myRequest(url2, requestOptions2)
-  const newUser = { telephone: `7${telephone}`, ...request, target: false, chat }
+
+  const newUser = { telephone: telephone, ...request, target: false, chat }
   const users = [...state.users, newUser]
   setState({ ...state, users })
   return { ...state, users }
@@ -58,9 +59,6 @@ const update = async (state: any, setState: Function, telephone: string) => {
 
   const url = `https://api.green-api.com/waInstance${state.IdInstance}/getChatHistory/${state.ApiTokenInstance}`
   const chat = await myRequest(url, requestOptions)
-
-  console.log(chat)
-  console.log(oldChat)
 
   if (chat.length === oldChat.length) {
     console.log('новых  сообщений неет')
@@ -95,27 +93,22 @@ const AddChat = (props: any) => {
             console.log('должно быть 10 цифр')
             return
           }
-
           const tel = `7${telephone}`
-
           const arrTelephone: [string] = state.users.map((el: any) => el.telephone)
-
-          if (arrTelephone.includes(telephone)) {
+          if (arrTelephone.includes(tel)) {
             console.log('этот пользователь уже добавлен')
+            return
           }
-
-          const newState = await getInfo(telephone, state, setState)
-
-          setTimeout(async () => {
-            await update(newState, setState, tel)
-          }, 2000)
-
+          const newState = await getInfo(tel, state, setState)
+          // setTimeout(async () => {
+          //   await update(newState, setState, tel)
+          // }, 2000)
           setTelephone('')
         }}
-      ></button>
+      >add</button>
       <span>+7</span>
       <input type="tel" id="phone" name="phone" value={`${telephone}`}
-        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+        pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
         required
         onChange={(e) => {
           const newValue = (e.target.value)

@@ -24,7 +24,8 @@ const UsersItems = (props: any) => {
   const itemsUser = state.users.map((user: IUser, i: number) => {
 
     const telephoneTarger = user.telephone
-
+    const noImg = `https://console.green-api.com/emptyAvatar.png`
+    const userName = user.name === '' ? user.telephone : user.name;
     return (
       <div key={_.uniqueId()} className={user.target ? 'user-activ' : 'user'}
         onClick={async () => {
@@ -50,10 +51,10 @@ const UsersItems = (props: any) => {
           setState({ ...state, users })
         }}
       >
-        {user.avatar === '' ? <div className="noImg"></div> : <img src={user.avatar} className='avatar' alt="" />}
+        {user.avatar === '' ? <img src={noImg} className='avatar' alt="" /> : <img src={user.avatar} className='avatar' alt="" />}
         <div className='body'>
-          <span>{user.telephone}</span>
-          <span className='status'>xx</span>
+          <span>{userName}</span>
+          {/* <span className='status'>xx</span> */}
         </div>
         <div className='time'></div>
       </div>
