@@ -1,6 +1,6 @@
 # Тестовое задание на должность "Фронтенд разработчик React"
 
-
+Этот проект был загружен с помощью приложения Create React.
 
 ## Установка
 
@@ -16,5 +16,6 @@
 
 Для пользования нужно получить: IdInstance и ApiTokenInstance  а также настроить аккаунт  видео инструкция https://green-api.com/docs/before-start/
 
-Выложенны проект https://gren-api.vercel.app/
+Ссылка на проект https://gren-idweb05p1-aristov6569-gmailcom.vercel.app/
 
+Скриншоты прилагаются.
