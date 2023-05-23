@@ -24,4 +24,5 @@ jobs:
 
     - name: start
       run: |
+        npm i
         npm run start
