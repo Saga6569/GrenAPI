@@ -40,7 +40,7 @@ const Chat: any = (props: any) => {
 
   return (
     <div className='chat' >
-      <ChatBody state={state} setState={setState} />
+      <div className='textMain' > Начните общение c green-api</div>
     </div>
   )
 }

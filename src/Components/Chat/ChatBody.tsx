@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { updateChat } from "../../utilits";
-interface IValues {
+interface IUser {
   avatar: string;
   category: string;
   chatId: string;
@@ -31,18 +31,13 @@ interface IRequest {
   imageMessage?: string
 }
 
-
-
 const BodyChat = (props: any) => {
   const { state, setState } = props
-
   const [count, setCount] = useState(0)
+  const lastMasseg = useRef<any>(undefined);
+  const userTarget = state.users.filter((el: IUser) => el.target)[0]
 
-  const lastMasseg =  useRef<any>(undefined);
-
-  const userTarget = state.users.filter((el: IValues) => el.target)[0]
-
-  const slep = (time: number = 1000) => {
+  const slep = (time: number = 2000) => {
     setTimeout(() => {
       console.log(count)
       updateChat(state, setState, userTarget.telephone)
@@ -52,7 +47,6 @@ const BodyChat = (props: any) => {
 
   // useEffect(() => {
   //   slep()
-  //scrollIntoView
   // }, [count])
 
   useEffect(() => {
@@ -60,13 +54,6 @@ const BodyChat = (props: any) => {
       lastMasseg?.current.scrollIntoView()
     }
   }, [])
-
-  useEffect(() => {
-    if (userTarget !== undefined) {
-    lastMasseg?.current.scrollIntoView()
-    }
-  }, [state])
-
 
   if (userTarget === undefined) {
     return null
@@ -76,29 +63,36 @@ const BodyChat = (props: any) => {
   }
 
   const masseg = (userTarget.chat).map((el: IRequest, i: number) => {
-
-    const date = new Date((el.timestamp))
     const clssName = el.type
+    const color = clssName === "outgoing" ? 'green' : 'rgb(131, 136, 131)'
+    const imgMasseg = ["stickerMessage", 'imageMessage']
+    const span = imgMasseg.includes(el.typeMessage) ? <img className='img' alt='изображение' src={el.downloadUrl} /> : <p className='text'>{el.textMessage}</p>
+    const myStyle: any = imgMasseg.includes(el.typeMessage) ? {} : { backgroundColor: color }
 
-    const span = el.typeMessage === 'imageMessage' ? <img className='img' alt='изображение' src={el.downloadUrl} /> : <p className='text'>{el.textMessage}</p>
+    const date = new Date(el.timestamp *1000)
+
+    const hours = String(date.getHours()).length === 1 ? `0${date.getHours()}` : date.getHours()
+    const minutes = String(date.getMinutes()).length === 1 ? `0${date.getMinutes()}` : date.getMinutes()
+
+    const time = `${hours}:${minutes}`
 
     if (el.type === '') {
       return null
     }
     if (i === 0) {
-      return(
-        <div key={i} className={clssName} ref={lastMasseg}>
+      return (
+        <div key={i} className={clssName} ref={lastMasseg} style={myStyle} >
           {span}
           {/* <span className='status'>{el.statusMessage}</span> */}
-          <span className='time'>{`${date.getHours()}:${date.getMinutes()}`}</span>
+          <span className='time'>{time}</span>
         </div>
       )
     }
     return (
-      <div key={i} className={clssName}>
+      <div key={i} className={clssName} style={myStyle} >
         {span}
         {/* <span className='status'>{el.statusMessage}</span> */}
-        <span className='time'>{`${date.getHours()}:${date.getMinutes()}`}</span>
+        <span className='time'>{time}</span>
       </div>
     )
   }).reverse()

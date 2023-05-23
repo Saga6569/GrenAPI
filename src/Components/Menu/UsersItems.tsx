@@ -27,18 +27,18 @@ const UsersItems = (props: any) => {
     const noImg = `https://console.green-api.com/emptyAvatar.png`
     const userName = user.name === '' ? user.telephone : user.name;
 
-    const lastMasseg = user.chat.at(-1)
+    const lastMasseg = user.chat.at(0)
 
-    const date = new Date(lastMasseg.timestamp)
-    const hour = date.getHours()
-    const minutes = date.getMinutes()
+    const date = new Date(lastMasseg.timestamp * 1000)
+
+    const hours = String(date.getHours()).length === 1 ? `0${date.getHours()}` : date.getHours()
+    const minutes = String(date.getMinutes()).length === 1 ? `0${date.getMinutes()}` : date.getMinutes()
 
     return (
       <div key={_.uniqueId()} className={user.target ? 'user-activ' : 'user'}
         onClick={async () => {
 
           const userTarget = state.users.filter((el: IUser) => el.target)[0]
-
 
           if (userTarget !== undefined) {
             if (telephoneTarger === userTarget.telephone) {
@@ -61,9 +61,8 @@ const UsersItems = (props: any) => {
         {user.avatar === '' ? <img src={noImg} className='avatar' alt="" /> : <img src={user.avatar} className='avatar' alt="" />}
         <div className='body'>
           <span>{userName}</span>
-          {/* <span className='status'>xx</span> */}
         </div>
-        <div className='time'>{`${hour}:${minutes}`}</div>
+        <div className='time'>{`${hours}:${minutes}`}</div>
       </div>
     )
   })

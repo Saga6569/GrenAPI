@@ -84,7 +84,7 @@ const Menu = (props: any) => {
 
   return (
     <div className='menu'>
-      <HeaderMenu />
+      <HeaderMenu state={state} setState={setState} />
       <UsersItem state={state} setState={setState} />
       <AddChat state={state} setState={setState} />
     </div>

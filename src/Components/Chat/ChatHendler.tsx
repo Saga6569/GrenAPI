@@ -1,5 +1,6 @@
 const ChatHendler = (props: {el: any}) => {
-  const user = props.el
+  const user = props.el;
+
   const telephoneTarger = user.telephone
   const noImg = `https://console.green-api.com/emptyAvatar.png`
   const userName = user.name === '' ? user.telephone : user.name;
