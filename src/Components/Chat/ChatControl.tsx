@@ -16,7 +16,26 @@ interface IUser {
   products: [];
   telephone: string;
   target: boolean;
-  chat: any
+  chat: IRequest[]
+}
+
+interface IRequest {
+  chatId: string;
+  idMessage: string;
+  sendByApi: boolean;
+  statusMessage: string;
+  textMessage: string;
+  timestamp: number;
+  type: string;
+  typeMessage: string;
+  downloadUrl?: string;
+  imageMessage?: string
+}
+
+interface IState {
+  users: IUser[];
+  ApiTokenInstance: string;
+  IdInstance: number | string
 }
 
 const smail = <svg viewBox="0 0 24 24" height="35" width="35" preserveAspectRatio="xMidYMid meet" version="1.1" x="0px" y="0px" enableBackground="new 0 0 24 24" xmlSpace="preserve">
@@ -35,14 +54,12 @@ const file = <svg viewBox="0 0 24 24" height="35" width="35" preserveAspectRatio
 </svg>
 
 
-const ChatControl = (props: any) => {
+const ChatControl = (props: { state: IState, setState: Function }) => {
   const { state, setState } = props
 
   const [masseg, setMasseg] = useState('')
 
   const elTarget = state.users.filter((el: any) => el.target)[0]
-
-  const lastMasseg = elTarget
 
   const sendMasseg = async () => {
     const telephone = elTarget.telephone
@@ -60,16 +77,6 @@ const ChatControl = (props: any) => {
     };
     const url = `https://api.green-api.com/waInstance${state.IdInstance}/sendMessage/${state.ApiTokenInstance}`
     const res = await myRequest(url, requestOptions);
-
-    const clonLastMasseg = { ...lastMasseg.chat[0], type: 'outgoing', textMessage: masseg, timestamp: Date.now() }
-    // console.log(clonLastMasseg)
-
-    // const users = state.users.map((user: IUser) => {
-    //   if (user.target) {
-    //     user.chat = [clonLastMasseg, ...user.chat, ]
-    //   }
-    //   return user
-    // })
     setMasseg('')
     // setState({ ...state, users })
     // setTimeout(async () => {
@@ -95,7 +102,6 @@ const ChatControl = (props: any) => {
           }}
         />
       </div>
-
     </div>
   )
 };

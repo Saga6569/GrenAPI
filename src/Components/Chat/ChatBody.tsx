@@ -15,7 +15,7 @@ interface IUser {
   products: [];
   telephone: string;
   target: boolean;
-  chat: any
+  chat: IRequest[]
 }
 
 interface IRequest {
@@ -31,59 +31,64 @@ interface IRequest {
   imageMessage?: string
 }
 
-const BodyChat = (props: any) => {
-  const { state, setState } = props
-  const [count, setCount] = useState(0)
+interface IState {
+  users: IUser[];
+  ApiTokenInstance: string;
+  IdInstance: number | string
+}
+
+const BodyChat = (props: { state: IState, setState: Function }) => {
+  const { state, setState } = props;
+  const [count, setCount] = useState(0);
   const lastMasseg = useRef<any>(undefined);
-  const userTarget = state.users.filter((el: IUser) => el.target)[0]
+  const userTarget = state.users.filter((el: IUser) => el.target)[0];
 
-  const slep = (time: number = 2000) => {
+  const slep = (time: number = 5000) => {
     setTimeout(() => {
-      console.log(count)
-      updateChat(state, setState, userTarget.telephone)
-      setCount(count + 1)
-    }, time)
-  }
+      console.log(count);
+      updateChat(state, setState, userTarget.telephone);
+      setCount(count + 1);
+    }, time);
+  };
 
-  // useEffect(() => {
-  //   slep()
-  // }, [count])
+  useEffect(() => {
+    slep()
+  }, [count])
 
   useEffect(() => {
     if (userTarget !== undefined) {
-      lastMasseg?.current.scrollIntoView()
-    }
-  }, [])
+      lastMasseg?.current.scrollIntoView();
+    };
+  }, []);
 
   if (userTarget === undefined) {
-    return null
-  }
+    return null;
+  };
   if (!userTarget.hasOwnProperty('chat')) {
-    return null
-  }
+    return null;
+  };
 
   const masseg = (userTarget.chat).map((el: IRequest, i: number) => {
-    const clssName = el.type
-    const color = clssName === "outgoing" ? 'green' : 'rgb(131, 136, 131)'
-    const imgMasseg = ["stickerMessage", 'imageMessage']
+    const clssName = el.type;
+    const color = clssName === "outgoing" ? 'green' : 'rgb(131, 136, 131)';
+    const imgMasseg = ["stickerMessage", 'imageMessage'];
     const span = imgMasseg.includes(el.typeMessage) ? <img className='img' alt='изображение' src={el.downloadUrl} /> : <p className='text'>{el.textMessage}</p>
-    const myStyle: any = imgMasseg.includes(el.typeMessage) ? {} : { backgroundColor: color }
+    const myStyle: any = imgMasseg.includes(el.typeMessage) ? {} : { backgroundColor: color };
 
-    const date = new Date(el.timestamp *1000)
+    const date = new Date(el.timestamp *1000);
 
-    const hours = String(date.getHours()).length === 1 ? `0${date.getHours()}` : date.getHours()
-    const minutes = String(date.getMinutes()).length === 1 ? `0${date.getMinutes()}` : date.getMinutes()
+    const hours = String(date.getHours()).length === 1 ? `0${date.getHours()}` : date.getHours();
+    const minutes = String(date.getMinutes()).length === 1 ? `0${date.getMinutes()}` : date.getMinutes();
 
-    const time = `${hours}:${minutes}`
+    const time = `${hours}:${minutes}`;
 
     if (el.type === '') {
-      return null
+      return null;
     }
     if (i === 0) {
       return (
         <div key={i} className={clssName} ref={lastMasseg} style={myStyle} >
           {span}
-          {/* <span className='status'>{el.statusMessage}</span> */}
           <span className='time'>{time}</span>
         </div>
       )
@@ -91,17 +96,16 @@ const BodyChat = (props: any) => {
     return (
       <div key={i} className={clssName} style={myStyle} >
         {span}
-        {/* <span className='status'>{el.statusMessage}</span> */}
         <span className='time'>{time}</span>
       </div>
     )
-  }).reverse()
+  }).reverse();
 
   return (
     <div className='bodyChat'>
       {masseg}
     </div>
-  )
-}
+  );
+};
 
 export default BodyChat;

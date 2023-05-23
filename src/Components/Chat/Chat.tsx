@@ -1,9 +1,7 @@
 import ChatHendler from './ChatHendler'
 import ChatBody from './ChatBody'
 import ChatControl from './ChatControl'
-import { updateChat } from '../../utilits';
-import { useEffect, useState } from 'react';
-
+import React, { FC } from 'react';
 interface IUser {
   avatar: string;
   category: string;
@@ -19,16 +17,35 @@ interface IUser {
   products: [];
   telephone: string;
   target: boolean;
-  chat: any
+  chat: IRequest[]
 }
 
-const Chat: any = (props: any) => {
+interface IRequest {
+  chatId: string;
+  idMessage: string;
+  sendByApi: boolean;
+  statusMessage: string;
+  textMessage: string;
+  timestamp: number;
+  type: string;
+  typeMessage: string;
+  downloadUrl?: string;
+  imageMessage?: string
+}
 
-  const { state, setState } = props
-  const arr = state.users.filter((el: IUser) => el.target)
+interface IState {
+  users: IUser[];
+  ApiTokenInstance: string;
+  IdInstance: number | string
+}
+
+const Chat = (props: { state: IState, setState: Function }) => {
+
+  const { state, setState } = props;
+  const arr = state.users.filter((el: IUser) => el.target);
 
   if (arr.length !== 0) {
-    const targetEl = arr[0]
+    const targetEl = arr[0];
     return (
       <div className='chat' >
         <ChatHendler el={targetEl} />

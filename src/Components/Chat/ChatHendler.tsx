@@ -1,8 +1,26 @@
-const ChatHendler = (props: {el: any}) => {
+interface IUser {
+  avatar: string;
+  category: string;
+  chatId: string;
+  description: string;
+  email: string;
+  isArchive: boolean;
+  isDisappearing: boolean;
+  isMute: boolean;
+  lastSeen: null;
+  muteExpiration: null;
+  name: string;
+  products: [];
+  telephone: string;
+  target: boolean;
+  chat: any
+}
+
+const ChatHendler = (props: { el: IUser }) => {
   const user = props.el;
 
-  const telephoneTarger = user.telephone
-  const noImg = `https://console.green-api.com/emptyAvatar.png`
+  const telephoneTarger = user.telephone;
+  const noImg = `https://console.green-api.com/emptyAvatar.png`;
   const userName = user.name === '' ? user.telephone : user.name;
     return (
         <div className='headerChat'>
@@ -13,7 +31,7 @@ const ChatHendler = (props: {el: any}) => {
         </div>
         <div className='time'></div>
         </div>
-    )
+    );
 };
 
 export default ChatHendler;

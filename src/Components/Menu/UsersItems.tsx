@@ -15,10 +15,29 @@ interface IUser {
   products: [];
   telephone: string;
   target: boolean;
-  chat: any
+  chat: IRequest[]
 }
 
-const UsersItems = (props: any) => {
+interface IRequest {
+  chatId: string;
+  idMessage: string;
+  sendByApi: boolean;
+  statusMessage: string;
+  textMessage: string;
+  timestamp: number;
+  type: string;
+  typeMessage: string;
+  downloadUrl?: string;
+  imageMessage?: string
+}
+
+interface IState {
+  users: IUser[];
+  ApiTokenInstance: string;
+  IdInstance: number | string
+}
+
+const UsersItems = (props: { state: IState, setState: Function }) => {
   const { state, setState } = props;
 
   const itemsUser = state.users.map((user: IUser, i: number) => {
@@ -27,7 +46,7 @@ const UsersItems = (props: any) => {
     const noImg = `https://console.green-api.com/emptyAvatar.png`
     const userName = user.name === '' ? user.telephone : user.name;
 
-    const lastMasseg = user.chat.at(0)
+    const lastMasseg: IRequest | any = user.chat.at(0)
 
     const date = new Date(lastMasseg.timestamp * 1000)
 

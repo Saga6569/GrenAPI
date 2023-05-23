@@ -17,21 +17,21 @@ const SignupForm = (func: Function) => {
         }}
         onSubmit={async (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
           setSubmitting(false);
-          const IdInstance = Number(values.IdInstance)
-          const ApiTokenInstance = values.ApiTokenInstance
+          const IdInstance = Number(values.IdInstance);
+          const ApiTokenInstance = values.ApiTokenInstance;
 
-          const url = `https://api.green-api.com/waInstance${IdInstance}/getStateInstance/${ApiTokenInstance}`
+          const url = `https://api.green-api.com/waInstance${IdInstance}/getStateInstance/${ApiTokenInstance}`;
 
           const requestOptions = {
             method: 'GET',
-            redirect: 'follow'
+            redirect: 'follow',
           };
 
-          const res = await myRequest(url, requestOptions)
+          const res = await myRequest(url, requestOptions);
 
           if (res.stateInstance !== undefined) {
-            func(IdInstance, ApiTokenInstance)
-          }
+            func(IdInstance, ApiTokenInstance);
+          };
 
         }}
       >

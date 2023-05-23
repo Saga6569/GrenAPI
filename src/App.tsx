@@ -4,14 +4,32 @@ import Chat from './Components/Chat/Chat';
 import Menu from './Components/Menu/Menu';
 import './App.scss'
 
+interface IUser {
+  avatar: string;
+  category: string;
+  chatId: string;
+  description: string;
+  email: string;
+  isArchive: boolean;
+  isDisappearing: boolean;
+  isMute: boolean;
+  lastSeen: null;
+  muteExpiration: null;
+  name: string;
+  products: [];
+  telephone: string;
+  target: boolean;
+  chat: any
+}
+
 const App = () => {
 
-  const [state, setState] = useState({ users: [], IdInstance: '', ApiTokenInstance: '', coutn: 0 })
+  const [state, setState] = useState({ users: [], IdInstance: '', ApiTokenInstance: ''});
 
   useEffect(() => {
     const localStorageState = ((localStorage.getItem('state')));
     if (localStorageState !== null) {
-      setState(JSON.parse(localStorageState))
+      setState(JSON.parse(localStorageState));
     };
   }, []);
 
@@ -22,13 +40,13 @@ const App = () => {
   const login = () => {
     if (state.IdInstance !== '') {
       return null;
-    }
+    };
     return (
       <div>
         {SignupForm((IdInstance: string, ApiTokenInstance: string) => setState({ ...state, IdInstance, ApiTokenInstance }))}
       </div>
     );
-  }
+  };
 
   return (
     <div className="App">
@@ -39,6 +57,6 @@ const App = () => {
       </div>
     </div>
   );
-}
+};
 
 export default App;

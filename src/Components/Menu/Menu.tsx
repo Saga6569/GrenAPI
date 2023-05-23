@@ -3,7 +3,44 @@ import HeaderMenu from "./HeaderMenu"
 import UsersItem from "./UsersItems"
 import { myRequest } from '../../utilits'
 
-const getInfo = async (telephone: string, state: any, setState: Function) => {
+interface IUser {
+  avatar: string;
+  category: string;
+  chatId: string;
+  description: string;
+  email: string;
+  isArchive: boolean;
+  isDisappearing: boolean;
+  isMute: boolean;
+  lastSeen: null;
+  muteExpiration: null;
+  name: string;
+  products: [];
+  telephone: string;
+  target: boolean;
+  chat: IRequest[]
+}
+
+interface IRequest {
+  chatId: string;
+  idMessage: string;
+  sendByApi: boolean;
+  statusMessage: string;
+  textMessage: string;
+  timestamp: number;
+  type: string;
+  typeMessage: string;
+  downloadUrl?: string;
+  imageMessage?: string
+}
+
+interface IState {
+  users: IUser[];
+  ApiTokenInstance: string;
+  IdInstance: number | string
+}
+
+const getInfo = async (telephone: string, state: IState, setState: Function) => {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   const raw = JSON.stringify({
@@ -15,8 +52,8 @@ const getInfo = async (telephone: string, state: any, setState: Function) => {
     body: raw,
     redirect: 'follow'
   };
-  const url = `https://api.green-api.com/waInstance${state.IdInstance}/GetContactInfo/${state.ApiTokenInstance}`
-  const request = await myRequest(url, requestOptions)
+  const url = `https://api.green-api.com/waInstance${state.IdInstance}/GetContactInfo/${state.ApiTokenInstance}`;
+  const request = await myRequest(url, requestOptions);
 
   const myHeaders2 = new Headers();
   myHeaders.append("Content-Type", "application/json");
@@ -31,39 +68,39 @@ const getInfo = async (telephone: string, state: any, setState: Function) => {
     redirect: 'follow'
   };
 
-  const url2 = `https://api.green-api.com/waInstance${state.IdInstance}/getChatHistory/${state.ApiTokenInstance}`
-  const chat = await myRequest(url2, requestOptions2)
+  const url2 = `https://api.green-api.com/waInstance${state.IdInstance}/getChatHistory/${state.ApiTokenInstance}`;
+  const chat = await myRequest(url2, requestOptions2);
 
-  const newUser = { telephone: telephone, ...request, target: false, chat }
-  const users = [...state.users, newUser]
-  setState({ ...state, users })
-  return { ...state, users }
-}
+  const newUser = { telephone: telephone, ...request, target: false, chat };
+  const users = [...state.users, newUser];
+  setState({ ...state, users });
+  return { ...state, users };
+};
 
-const AddChat = (props: any) => {
+const AddChat = (props: {state: IState, setState: Function}) => {
 
   const { state, setState } = props;
-  const [telephone, setTelephone] = useState('')
+  const [telephone, setTelephone] = useState('');
 
   return (
     <div className='AddChat' >
       <button className='Add'
         onClick={async () => {
           if (telephone.length !== 10) {
-            console.log('должно быть 10 цифр')
-            return
+            console.log('должно быть 10 цифр');
+            return;
           }
-          const tel = `7${telephone}`
-          const arrTelephone: [string] = state.users.map((el: any) => el.telephone)
+          const tel = `7${telephone}`;
+          const arrTelephone: string[] = state.users.map((el: IUser) => el.telephone);
           if (arrTelephone.includes(tel)) {
-            console.log('этот пользователь уже добавлен')
-            return
-          }
-          const newState = await getInfo(tel, state, setState)
+            console.log('этот пользователь уже добавлен');
+            return;
+          };
+         await getInfo(tel, state, setState);
           // setTimeout(async () => {
           //   await update(newState, setState, tel)
           // }, 2000)
-          setTelephone('')
+          setTelephone('');
         }}
       >add</button>
       <span>+7</span>
@@ -71,16 +108,16 @@ const AddChat = (props: any) => {
         pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
         required
         onChange={(e) => {
-          const newValue = (e.target.value)
-          setTelephone(newValue)
+          const newValue = (e.target.value);
+          setTelephone(newValue);
         }}
       />
     </div>
   )
 }
-const Menu = (props: any) => {
+const Menu = (props: { state: IState, setState: Function }) => {
 
-  const { state, setState } = props
+  const { state, setState } = props;
 
   return (
     <div className='menu'>
