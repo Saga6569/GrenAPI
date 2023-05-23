@@ -4,24 +4,6 @@ import Chat from './Components/Chat/Chat';
 import Menu from './Components/Menu/Menu';
 import './App.scss'
 
-interface IUser {
-  avatar: string;
-  category: string;
-  chatId: string;
-  description: string;
-  email: string;
-  isArchive: boolean;
-  isDisappearing: boolean;
-  isMute: boolean;
-  lastSeen: null;
-  muteExpiration: null;
-  name: string;
-  products: [];
-  telephone: string;
-  target: boolean;
-  chat: any
-}
-
 const App = () => {
 
   const [state, setState] = useState({ users: [], IdInstance: '', ApiTokenInstance: ''});

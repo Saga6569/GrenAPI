@@ -16,3 +16,5 @@
 
 Для пользования нужно получить: IdInstance и ApiTokenInstance  а также настроить аккаунт  видео инструкция https://green-api.com/docs/before-start/
 
+Выложенны проект https://gren-api.vercel.app/
+

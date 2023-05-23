@@ -3,6 +3,12 @@ import HeaderMenu from "./HeaderMenu"
 import UsersItem from "./UsersItems"
 import { myRequest } from '../../utilits'
 
+interface IState {
+  users: IUser[];
+  ApiTokenInstance: string;
+  IdInstance: number | string
+}
+
 interface IUser {
   avatar: string;
   category: string;
@@ -18,26 +24,7 @@ interface IUser {
   products: [];
   telephone: string;
   target: boolean;
-  chat: IRequest[]
-}
-
-interface IRequest {
-  chatId: string;
-  idMessage: string;
-  sendByApi: boolean;
-  statusMessage: string;
-  textMessage: string;
-  timestamp: number;
-  type: string;
-  typeMessage: string;
-  downloadUrl?: string;
-  imageMessage?: string
-}
-
-interface IState {
-  users: IUser[];
-  ApiTokenInstance: string;
-  IdInstance: number | string
+  chat: any
 }
 
 const getInfo = async (telephone: string, state: IState, setState: Function) => {
@@ -104,9 +91,7 @@ const AddChat = (props: {state: IState, setState: Function}) => {
         }}
       >add</button>
       <span>+7</span>
-      <input type="tel" id="phone" name="phone" value={`${telephone}`}
-        pattern="[0-9]{3}[0-9]{3}[0-9]{4}"
-        required
+      <input type="tel" id="phone" name="phone" value={`${telephone}`} autoComplete='off'
         onChange={(e) => {
           const newValue = (e.target.value);
           setTelephone(newValue);
